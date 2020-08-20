@@ -1,33 +1,37 @@
 const express = require('express');
 const router = express.Router();
 
-/*@ Include User Controller @*/
-const User_Controller = require('../Controllers/Account');
-/*@ Include User Controller @*/
+// Include Controllers(Account_Controller + Upload)
+const Account_Controller = require('../Controllers/Account');
+const Upload = require('../Controllers/Upload');
 
-/*@ Include checkAuth @*/
+// Include checkAuth Middleware
 const checkAuth = require('../Middlewares/checkAuth')
-/*@ Include checkAuth @*/
 
 
 // Signup Router => Post to /user/signup to execute this request
-router.post('/signup', User_Controller.Signup)
+router.post('/signup', Account_Controller.Signup)
 
 // Login Router => Post to /user/login to execute this request
-router.post('/login', User_Controller.Login)
+router.post('/login', Account_Controller.Login)
 
+// Login Router => Post to /user/login to execute this request
+router.post('/uploadPicture', checkAuth, Upload.uploadPicture)
+
+// Login Router => Post to /user/login to execute this request
+router.put('/editProfile', checkAuth, Account_Controller.editProfile)
 
 // RemoveUser Router => Post to /user/removeUser to execute this request
-router.post('/changePassword', checkAuth, User_Controller.changePassword)
+router.post('/changePassword', checkAuth, Account_Controller.changePassword)
 
 // RemoveUser Router => Post to /user/logout to execute this request
-router.post('/logout', checkAuth, User_Controller.Logout)
+router.post('/logout', checkAuth, Account_Controller.Logout)
 
 // RemoveUser Router => Post to /user/removeUser to execute this request
-router.delete('/removeUser', checkAuth, User_Controller.RemoveUser)
+router.delete('/removeUser', checkAuth, Account_Controller.RemoveUser)
 
 
-router.put('/editProfile', checkAuth, User_Controller.editProfile)
+
 
 
 

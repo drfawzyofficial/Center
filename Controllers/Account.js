@@ -116,7 +116,8 @@ const Login = async (req, res, next) => {
     } catch (err) {
         return sendResponse(res, 500, err.message, 'Something went wrong');
     }
-} 
+}
+
 
 // Account editProfile Controller
 const editProfile = async (req, res, next) => {
@@ -125,26 +126,26 @@ const editProfile = async (req, res, next) => {
         const { fullname, email, bio, location, gender, phone } = req.body;
 
         // Make Validations to the sent data with body
-        if (!fullname || fullname.length < 6 || !email || !email.match(/^\w+([-+.]\w+)*@((yahoo|gmail)\.com)$/)|| bio.length < 25 || !phone || !(phone.length == 11) || !locations.includes(location) || !genders.includes(gender)) {
+        if (!fullname || fullname.length < 6 || !email || !email.match(/^\w+([-+.]\w+)*@((yahoo|gmail)\.com)$/) || bio.length < 25 || !phone || !(phone.length == 11) || !locations.includes(location) || !genders.includes(gender)) {
             return sendResponse(res, 400, 'One of conditions In IF Statement is satisfied', 'Make sure that the sent data is correct')
         }
 
-         // Want to Edit Email. The Question here Does someone have the edittd email?
-         let anotherUser = await User.findOne({ _id: { $ne: req.user._id }, email: email })
-         if(anotherUser) {
-             return sendResponse(res, 409, 'The Email is already exist', 'The Email is already exist')
-         }
+        // Want to Edit Email. The Question here Does someone have the edittd email?
+        let anotherUser = await User.findOne({ _id: { $ne: req.user._id }, email: email })
+        if (anotherUser) {
+            return sendResponse(res, 409, 'The Email is already exist', 'The Email is already exist')
+        }
 
         // Get Current Email to compare with the editted email
         let currentEmail = ' ';
         let user = await User.findById({ _id: req.user._id })
-        currentEmail = user.email; 
+        currentEmail = user.email;
 
         // Update the profile data
         let updated = await User.findByIdAndUpdate({ _id: req.user._id }, { fullname: fullname, email: email, bio: bio, location: location, gender: gender, phone: phone }, { new: true });
 
         // Comparision between the current email and new email if they are not the same, the user must verify the new email to prove that he's the owner
-        if(currentEmail !== updated.email) {
+        if (currentEmail !== updated.email) {
             await User.findByIdAndUpdate({ _id: req.user._id }, { accountVerified: false })
         }
 
@@ -226,7 +227,7 @@ const RemoveUser = async (req, res, next) => {
 }
 
 // Export all Account Router Handlers
-module.exports = { 
+module.exports = {
     Signup,
     Login,
     editProfile,
@@ -234,4 +235,3 @@ module.exports = {
     Logout,
     RemoveUser
 }
-    

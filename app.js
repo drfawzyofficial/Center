@@ -89,15 +89,9 @@ app.use((req, res, next) => {
 
 
 /*@ here we include contactRouter @*/
-// const Contact = require('./routes/Contact')
-// app.use('/contact', Contact)
+const Contact = require('./routes/Contact')
+app.use('/contact', Contact)
 /*@ here we include contactRouter @*/
-
-/*@ here we include accountRouter @*/
-app.use('/', (req, res, next) => {
-    res.send('This is the home page for Centry Web App')
-})
-/*@ here we include accountRouter @*/
 
 /*@ here we include accountRouter @*/
 const Account = require('./routes/Account')
