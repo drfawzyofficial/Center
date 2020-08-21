@@ -89,13 +89,6 @@ app.use((req, res, next) => {
 
 
 /*@ here we include contactRouter @*/
-app.use('/', (req, res, next) => {
-    res.status(200).json('This is the backend')
-})
-/*@ here we include contactRouter @*/
-
-
-/*@ here we include contactRouter @*/
 const Contact = require('./routes/Contact')
 app.use('/contact', Contact)
 /*@ here we include contactRouter @*/
