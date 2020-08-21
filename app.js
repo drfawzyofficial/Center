@@ -220,7 +220,7 @@ app.get('*', (req, res, next) => {
 //     });
 
 // })
-const port =  3000;
+const port = process.env.PORT;
 http.listen(port, () => {
     console.log('Running on Port: 3000')
 })
