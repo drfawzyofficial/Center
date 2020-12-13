@@ -34,10 +34,12 @@ const sendResponse = require('../Utils/sendResponse');
 const Signup = async (req, res, next) => {
     try {
 
+        // ValidatorJS
+
         const { fullname, email, password, confirmPassword, phone, location, gender } = req.body;
 
         if (!fullname || fullname.length < 6 || !email || !email.match(/^\w+([-+.]\w+)*@((yahoo|gmail)\.com)$/) || !password || password.length < 6 || password.length != confirmPassword.length || !phone || !(phone.length == 11) || !location || !locations.includes(location) || !genders.includes(gender)) {
-            return sendResponse(res, 400, 'One of conditions In IF Statement is satisfied', 'Make sure that the sent data is correct');
+            return sendResponse(res, 400, 'One of conditions In IF Statement is not satisfied', 'Make sure that the sent data is correct');
         }
 
         // The User is found in the User Collection
@@ -111,7 +113,7 @@ const Login = async (req, res, next) => {
             return sendResponse(res, 401, 'Authentication is failed', 'Password is wrong');
         }
         const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, { expiresIn: "24h" });
-        const result = { token: token };
+        const result = { token: token, profile: user };
         return sendResponse(res, 200, 'Authentication is success', 'Login is success', result);
     } catch (err) {
         return sendResponse(res, 500, err.message, 'Something went wrong');

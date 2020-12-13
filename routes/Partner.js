@@ -1,51 +1,34 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// Include Controllers(Account_Controller + Upload)
-const Account_Controller = require('../Controllers/Account');
-const Upload = require('../Controllers/Upload');
-
-// Include checkAuth Middleware
-const checkAuth = require('../Middlewares/checkAuth')
+// Include Partner Controllers
+const { createPartner, loginPartner, editInfo, uploadPartner } = 
+require("../Controllers/Partner/index");
 
 
-// Signup Router => Post to /user/signup to execute this request
-router.post('/signup', Account_Controller.Signup)
+// Include Middlewares
+const { checkAuth, partner, partnerRole, Upload } = require("../Middlewares/index");
 
-// Login Router => Post to /user/login to execute this request
-router.post('/login', Account_Controller.Login)
+router.post("/createPartner", partner, createPartner);
 
-// Login Router => Post to /user/login to execute this request
-router.post('/uploadPicture', checkAuth, Upload.uploadPicture)
+router.post("/loginPartner", loginPartner);
 
-// Login Router => Post to /user/login to execute this request
-router.put('/editProfile', checkAuth, Account_Controller.editProfile)
+router.put("/editInfo", checkAuth, partnerRole, editInfo);
 
-// RemoveUser Router => Post to /user/removeUser to execute this request
-router.post('/changePassword', checkAuth, Account_Controller.changePassword)
-
-// RemoveUser Router => Post to /user/logout to execute this request
-router.post('/logout', checkAuth, Account_Controller.Logout)
-
-// RemoveUser Router => Post to /user/removeUser to execute this request
-router.delete('/removeUser', checkAuth, Account_Controller.RemoveUser)
-
-
-
-
-
+router.patch("/uploadPartner", checkAuth, partnerRole, Upload, uploadPartner);
+// router.delete("/removeUser", checkAuth, Account_Controller.RemoveUser);
 
 //     router.post('/forgotPassword', (req, res, next) => {
 
 //       async.waterfall([
-    
+
 //         function (done) {
 //           crypto.randomBytes(20, (err, buf) => {
 //             var token = buf.toString('hex');
 //             done(err, token);
 //           });
 //         },
-    
+
 //         function (token, done) {
 //           User.findOne({ email: req.body.emailForgot }, function (err, user) {
 //             if(err) {
@@ -64,7 +47,7 @@ router.delete('/removeUser', checkAuth, Account_Controller.RemoveUser)
 //             }
 //           });
 //         },
-    
+
 //         function (token, user, done) {
 //           let transporter = nodemailer.createTransport({
 //             service: 'gmail',
@@ -78,7 +61,7 @@ router.delete('/removeUser', checkAuth, Account_Controller.RemoveUser)
 //             from: 'AbdulrahmanFawzy999@gmail.com',
 //             subject: 'Reset your password',
 //             html: `
-//                   <p> You are receiving this because you (or someone else) has requested the reset of the password for your account. 
+//                   <p> You are receiving this because you (or someone else) has requested the reset of the password for your account.
 //                   </p>
 //                   <p>
 //                   Please click on the following link to complete the process
@@ -116,7 +99,7 @@ router.delete('/removeUser', checkAuth, Account_Controller.RemoveUser)
 //       }
 //     });
 //   });
-  
+
 // router.post('/updatePassword', (req, res, next) => {
 //   User.findOne({ _id: req.body.userID, resetPasswordToken: req.body.resetPasswordToken, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
 //     if (err) {

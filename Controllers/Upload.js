@@ -9,7 +9,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
 // Import Models
-const { User } = require('../models/Account');
+// const { User } = require('../models/Account');
 const Review = require('../models/Review');
 const Course = require('../models/Course');
 const Book = require('../models/Book');

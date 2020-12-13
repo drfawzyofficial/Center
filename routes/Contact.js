@@ -1,14 +1,14 @@
-// Import Packages
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// Include Contact_Controller
-const Contact_Controller = require('../Controllers/Contact');
+// Include Contact Controllers
+const { createContact   , createFeedback } = 
+require("../Controllers/Contact/index");
 
-// contactUS Router => Post to /contact/contactUS to execute this request
-router.post('/contactUS', Contact_Controller.contactUS)
 
-// feedback Router => Post to /contact/feedback to execute this request
-router.post('/feedback', Contact_Controller.feedbackUS)
+// Include Middlewares
+
+router.post("/createContact", createContact);
+router.post("/createFeedback", createFeedback);
 
 module.exports = router;

@@ -1,10 +1,11 @@
-const sendResponse = (res, statusCode, msgDev, msgUser, result = 'noResult') => {
+// sendResponse method as util
+const sendResponse = (res, statusCode, message, result = null) => {
     return res.status(statusCode).json({
         statusCode: statusCode,
-        msgDev: msgDev,
-        msgUser: msgUser,
+        message: message,
         result: result
     })
 }
 
+// Export sendResponse
 module.exports = sendResponse;
